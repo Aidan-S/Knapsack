@@ -71,21 +71,27 @@ public class Knapsack {
 		}
 	}
 	
-	public static String getLimit(Scanner list) {
-
-
-		
+	public static int size(Scanner list) {
+		int count = 0;
+		while (list.hasNextLine()) {
+		    count++;
+		    list.nextLine();
+		}
+		return count;
 	}
 	
+
 	
-	public static String runFile(Scanner list, int i) {
-		String line = "";
-		String limit = "";
-		while(list.hasNextLine()){
-			
-			
+	public static String runFile(Scanner list, int f, int c) {
+		String limit = list.nextLine();
+		String line = list.nextLine();
+		int[] melons = new int[c];
+		for(int i = 0; i < c; i++) {
+			melons[i] = Integer.parseInt(line);
+			line = list.nextLine();
 		}
-		return files.get(i) + "        " + limit + "        " + line;
+		return(files.get(f) + limit + " " + melons);
+		//return files.get(f) + "        " + limit + "        " + line;
 	}
 	
 	
@@ -95,9 +101,13 @@ public class Knapsack {
 		Scanner file = openWords(args[0], 1, out);
 		addFiles(file);
 		
+		int k;
+		
 		for(int i = 0; i < files.size(); i++) {
 			file = openWords(files.get(i), (i + 1), out);
-			out.println(runFile(file, i));
+			k = (size(file));
+			file = openWords(files.get(i), (i + 1), out);
+			out.println(runFile(file, i, k));
 		}
 		
 		
@@ -109,3 +119,14 @@ public class Knapsack {
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
