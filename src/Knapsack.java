@@ -20,7 +20,7 @@ public class Knapsack {
 			try {
 				output = new PrintWriter(fileName);
 			} catch (FileNotFoundException ex) {
-				System.out.print("Cannot open " + fName);
+				System.out.print("Cannot open " + fName + " , it may not exist");
 				return null;
 			}
 			return output;
@@ -55,10 +55,13 @@ public class Knapsack {
 	 * 
 	 */
 	public static int knapsackSum(int[] w, int n, int limit) {
-		int r = 0;
+		if(limit == 0) {
+			return n;
+		}
 		
 		
-		return r;
+		
+		
 	}
 	
 	//-----------------------------------------------------------------------------------------------------------
@@ -118,25 +121,18 @@ public class Knapsack {
 			files.set(0, keyboard.nextLine());
 		}
 		
-		for(int i = 0; i < files.size(); i++) {
-			try {
-				file = openWords(files.get(i), (i + 1), out);
+		for(int i = 0; i < files.size(); i++) {	
+				file = openWords(files.get(i), (i + 1), out);			
 				k = (size(file));
 				file = openWords(files.get(i), (i + 1), out);
 				out.println(runFile(file, i, k) + "\n");
-			} catch (FileNotFoundException ex) {
-				out.println("There is a missing File");
-			}
 		}
-		
 		
 		
 		file.close();
 		out.close();
 		
-	}
-	
-	
+	}	
 }
 
 
