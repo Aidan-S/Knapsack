@@ -54,7 +54,7 @@ public class Knapsack {
 	 * 
 	 * 
 	 */
-	public int knapsackSum(int[] w, int n, int limit) {
+	public static int knapsackSum(int[] w, int n, int limit) {
 		int r = 0;
 		
 		
@@ -72,7 +72,7 @@ public class Knapsack {
 	}
 	
 	public static int size(Scanner list) {
-		int count = 0;
+		int count = -1;
 		while (list.hasNextLine()) {
 		    count++;
 		    list.nextLine();
@@ -86,12 +86,22 @@ public class Knapsack {
 		String limit = list.nextLine();
 		String line = list.nextLine();
 		int[] melons = new int[c];
+		String nums = limit + "    ";
 		for(int i = 0; i < c; i++) {
 			melons[i] = Integer.parseInt(line);
-			line = list.nextLine();
+			if(list.hasNextLine()) {
+				line = list.nextLine();
+			}
 		}
-		return(files.get(f) + limit + " " + melons);
-		//return files.get(f) + "        " + limit + "        " + line;
+		for(int j = 0; j < melons.length; j++) {
+			nums += melons[j] + ", ";
+		}
+		nums = nums.substring(0, nums.length() - 2);
+		
+		int total = knapsackSum(melons, c, Integer.parseInt(limit));
+		
+		return (files.get(f) + "   " + nums);
+		
 	}
 	
 	
@@ -99,15 +109,24 @@ public class Knapsack {
 	public static void main(String[] args) {
 		PrintWriter out = outputFile("knapsack.txt");
 		Scanner file = openWords(args[0], 1, out);
+		Scanner keyboard = new Scanner(System.in);
 		addFiles(file);
-		
 		int k;
 		
+		if(files.size() < 1) {
+			System.out.println("Enter a file name: ");
+			files.set(0, keyboard.nextLine());
+		}
+		
 		for(int i = 0; i < files.size(); i++) {
-			file = openWords(files.get(i), (i + 1), out);
-			k = (size(file));
-			file = openWords(files.get(i), (i + 1), out);
-			out.println(runFile(file, i, k));
+			try {
+				file = openWords(files.get(i), (i + 1), out);
+				k = (size(file));
+				file = openWords(files.get(i), (i + 1), out);
+				out.println(runFile(file, i, k) + "\n");
+			} catch (FileNotFoundException ex) {
+				out.println("There is a missing File");
+			}
 		}
 		
 		
