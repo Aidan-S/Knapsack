@@ -1,6 +1,6 @@
-watermelon1.txt   10    3, 3, 3, 3, 3, 3, 3, 3
+watermelon1.txt   10    3, 3, 3, 3, 3, 3, 3, 3   0
 
-watermelon2.txt   12    5, 5, 5
+watermelon2.txt   12    5, 5, 5   0
 
-watermelon3.txt   16    7, 7, 7, 7
+watermelon3.txt   16    7, 7, 7, 7   0
 

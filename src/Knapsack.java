@@ -55,12 +55,22 @@ public class Knapsack {
 	 * 
 	 */
 	public static int knapsackSum(int[] w, int n, int limit) {
-		if(limit == 0) {
-			return n;
+		if(limit == 0 || n == 0) {
+			return 0;
 		}
 		
 		
-		
+		if(w[n-1] > limit) {
+			return knapsackSum(w, n - 1, limit);
+		}
+			
+		int a = knapsackSum(w, n - 1, limit - w[n-1]);
+		int b = knapsackSum(w, n - 1, limit);
+		if(a>b) {
+			 return a;
+		}else {
+			return b;
+		}
 		
 	}
 	
@@ -103,7 +113,7 @@ public class Knapsack {
 		
 		int total = knapsackSum(melons, c, Integer.parseInt(limit));
 		
-		return (files.get(f) + "   " + nums);
+		return (files.get(f) + "   " + nums + "   " + total);
 		
 	}
 	
