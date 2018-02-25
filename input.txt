@@ -1,3 +1,0 @@
-watermelon1.txt
-watermelon2.txt
-watermelon3.txt
