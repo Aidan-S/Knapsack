@@ -1,0 +1,12 @@
+watermelon1.txt   10    1, 3, 7, 6, 4, 19
+
+0
+
+watermelon2.txt   13    4, 4, 4, 4
+
+0
+
+watermelon3.txt   21    9, 7, 7, 7
+
+0
+
