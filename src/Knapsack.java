@@ -79,28 +79,28 @@ public class Knapsack {
 
 	 */
 	public static int knapsackSum(int[] w, int n, int limit) {
+		//base case
 		if(limit < 1 || n < 1) {
 			return 0;
 		}
 		
 		
-		if(w[n-1] > limit) {
-			return knapsackSum(w, n - 1, limit);
-		}else {
-			
-			int a = knapsackSum(w, n - 1, limit - w[n-1])  +  w[n-1];
-			int b = knapsackSum(w, n - 1, limit)  +  w[n-1];
 		
-			if(a >= b) {
-				if(a <=limit) {
-					return a;
-				} 
+		//make 2 different paths
+		int with = knapsackSum(w, n - 1, limit - w[n-1])  +  w[n-1];
+		int without = knapsackSum(w, n - 1, limit)  +  w[n-1];
 			
-			}else {
-				if(b <=limit) {
-				return b;
-				}
+		//which is better
+		if(with >= without) {
+			if(with <=limit) {
+				return with;
+			} 
+			
+		}else {
+			if(without <=limit) {
+				return without;
 			}
+			
 		}
 		return 0;
 	}
@@ -126,20 +126,26 @@ public class Knapsack {
 	 */
 	
 	 public static int knapsackSum(int[] w, int n, int limit, List<Integer> list) {
-		if(limit < 1 || n < 1) {
+		//base case
+		 if(limit < 1 || n < 1) {
 			return 0;
 		}
 		
-		if(w[n-1] > limit) {
+		//list to keep track of watermelons
+		ArrayList<Integer> box = (ArrayList<Integer>) list;
+		
+		//make the 2 paths to travel
+		int without = knapsackSum(w, n - 1, limit, list);
+		int with = knapsackSum(w, n - 1, limit - w[n-1], box);
+		
+		//which is better
+		if(with <= knapsackSum(w, n - 1, with)) {
+			//add if its good
+			box.set(spot((ArrayList<Integer>) list), w[n-1]);
+			return knapsackSum(w, n - 1, limit - w[n-1], box) + w[n-1];
+		}else {
 			return knapsackSum(w, n - 1, limit, list);
 		}
-		
-		ArrayList<Integer> box1 = (ArrayList<Integer>) list;
-		ArrayList<Integer> box2 = (ArrayList<Integer>) list;
-		
-		
-		
-		return 0;
 		
 		
 	}
@@ -159,6 +165,7 @@ public class Knapsack {
 	 */
 	public static void addFiles(Scanner list) {
 		String line;
+		//add the files to the global list
 		while(list.hasNextLine()){
 			line = list.nextLine();
 			files.add(line);
@@ -180,6 +187,7 @@ public class Knapsack {
 	 */
 	public static int size(Scanner list) {
 		int count = -1;
+		//how many items are in the given file
 		while (list.hasNextLine()) {
 		    count++;
 		    if(list.hasNextLine()) {   
@@ -203,7 +211,9 @@ public class Knapsack {
 
 	 */
 	public static int spot(ArrayList<Integer> box) {
-		int k =0;
+		int k=0;
+		//next open spot
+		if(box.size()<1) {return 0;};
 		while(box.get(k) != null) {
 			k++;
 		}
@@ -231,6 +241,8 @@ public class Knapsack {
 		String line = list.nextLine();
 		int[] melons = new int[c];
 		String nums = limit + "    ";
+		
+		//put together all of the watermelon weights
 		for(int i = 0; i < c; i++) {
 			melons[i] = Integer.parseInt(line);
 			if(list.hasNextLine()) {
@@ -242,8 +254,10 @@ public class Knapsack {
 		}
 		nums = nums.substring(0, nums.length() - 2);
 		
+		//call recursive method
 		int total = knapsackSum(melons, c, Integer.parseInt(limit), box);
 		
+		//add watermelon info + recursive answer
 		return (files.get(f) + "   " + nums + "\n\n" + total);
 		
 	}
@@ -268,6 +282,8 @@ public class Knapsack {
 		String line = list.nextLine();
 		int[] melons = new int[c];
 		String nums = limit + "    ";
+		
+		//put together all of the watermelon weights
 		for(int i = 0; i < c; i++) {
 			melons[i] = Integer.parseInt(line);
 			if(list.hasNextLine()) {
@@ -279,8 +295,10 @@ public class Knapsack {
 		}
 		nums = nums.substring(0, nums.length() - 2);
 		
+		//call recursive method
 		int total = knapsackSum(melons, c, Integer.parseInt(limit));
 		
+		//add watermelon info + recursive answer
 		return (files.get(f) + "   " + nums + "\n\n" + total);
 		
 	}
@@ -299,6 +317,7 @@ public class Knapsack {
 
 	 */
 	public static void main(String[] args) {
+		//set up scanners and get variables
 		PrintWriter out = outputFile("knapsack.txt");
 		Scanner file = openWords(args[0], 1, out);
 		Scanner keyboard = new Scanner(System.in);
@@ -306,12 +325,14 @@ public class Knapsack {
 		int k;
 		ArrayList<Integer> list;
 		
+		//add file if none are given
 		if(files.size() < 1) {
 			System.out.println("Enter a file name: ");
 			files.add(keyboard.nextLine());
 			file = openWords(files.get(0), 1, out);
 		}
 		
+		//activate the recursive method for all the given files
 		for(int i = 0; i < files.size(); i++) {	
 			if(file != null) {
 				file = openWords(files.get(i), (i + 1), out);			
@@ -320,12 +341,12 @@ public class Knapsack {
 				list = new ArrayList<Integer>();
 				out.println(runFile(file, i, k, list) + "\n");
 				for(int p = 0; p < list.size(); p++) {
-					out.println(list.get(p) + "\n");
+					out.println(list.get(p) + "watermelons \n");
 				}
 			}
 		}
 		
-		
+		//close up shop
 		if(file != null) {file.close();}
 		
 		out.close();
