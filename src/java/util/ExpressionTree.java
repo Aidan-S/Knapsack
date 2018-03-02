@@ -37,7 +37,7 @@ public class ExpressionTree extends TreeNode implements Expressions{
 		
 		
 		
-		
+		//doing them pseudocode
 		
 		
 		return ;
